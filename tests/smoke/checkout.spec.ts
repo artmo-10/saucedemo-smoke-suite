@@ -3,39 +3,53 @@ import { InventoryPage } from '../../pages/InventoryPage';
 import { CartPage } from '../../pages/CartPage';
 import { CheckoutPage } from '../../pages/CheckoutPage';
 import { CheckoutCompletePage } from '../../pages/CheckoutCompletePage';
-import { injectSaucedemoSession } from '../../utils/helpers';
+import { navigateToInventory } from '../../utils/helpers';
 import checkoutInfo from '../../utils/checkoutInfo.json';
 
-test.describe('Checkout Flow Test', () => {
-    
-    test.beforeEach(async ({ page }) => {
-    await injectSaucedemoSession(page);
-    });
+test.describe('Checkout Flow Tests', () => {
 
-    test('complete purchase end-to-end', async ({ page }) => {
-        const inventoryPage = new InventoryPage(page);
-        const cartPage = new CartPage(page);
-        const checkoutPage = new CheckoutPage(page);
-        const completePage = new CheckoutCompletePage(page);
+  test.beforeEach(async ({ page }) => {
+    await navigateToInventory(page);
+  });
 
-        // Add product
-        await inventoryPage.addFirstItemToCart();
-        await inventoryPage.goToCart();
+  test('complete purchase end-to-end', async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    const cartPage = new CartPage(page);
+    const checkoutPage = new CheckoutPage(page);
+    const completePage = new CheckoutCompletePage(page);
 
-        // From Cart to Checkout
-        await cartPage.proceedToCheckout();
+    await inventoryPage.addFirstItemToCart();
+    await inventoryPage.goToCart();
+    await cartPage.proceedToCheckout();
 
-        // Fill shipping
-        await expect(checkoutPage.checkoutTitle).toBeVisible();
-        await checkoutPage.fillShippingInfo(checkoutInfo.firstName, checkoutInfo.lastName, checkoutInfo.zipCode);
+    await expect(checkoutPage.checkoutTitle).toBeVisible();
+    await checkoutPage.fillShippingInfo(
+      checkoutInfo.firstName,
+      checkoutInfo.lastName,
+      checkoutInfo.zipCode,
+    );
 
-        // Verify order summary is visible before finishing
-        await expect(checkoutPage.summaryTotal).toBeVisible();
-        await checkoutPage.finish();
+    await expect(checkoutPage.summaryTotal).toBeVisible();
+    await checkoutPage.finish();
 
-        // Confirm order
-        await expect(completePage.confirmation).toBeVisible();
-        await expect(completePage.confirmation).toHaveText('Thank you for your order!');
-    });
+    await expect(completePage.confirmation).toBeVisible();
+    await expect(completePage.confirmation).toHaveText('Thank you for your order!');
+  });
+
+  test('empty shipping fields show validation error', async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    const cartPage = new CartPage(page);
+    const checkoutPage = new CheckoutPage(page);
+
+    await inventoryPage.addFirstItemToCart();
+    await inventoryPage.goToCart();
+    await cartPage.proceedToCheckout();
+
+    // Submit without filling any fields
+    await checkoutPage.continueButton.click();
+
+    await expect(checkoutPage.errorMessage).toBeVisible();
+    await expect(checkoutPage.errorMessage).toContainText('First Name');
+  });
 
 });

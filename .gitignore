@@ -1,6 +1,6 @@
-
-# Playwright
 node_modules/
+dist/
+.auth/
 /test-results/
 /playwright-report/
 /blob-report/
