@@ -8,3 +8,4 @@ dist/
 /playwright/.auth/
 allure-results/
 allure-report/
+.DS_Store
