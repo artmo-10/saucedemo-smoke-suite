@@ -17,27 +17,28 @@ Automated smoke test suite for [saucedemo.com](https://www.saucedemo.com) built 
 ---
 
 ## Project Structure
-saucedemo-smoke-suite/
-├── playwright.config.ts
-├── package.json
-├── README.md
-├── tests/
-│   └── smoke/
-│       ├── login.spec.ts
-│       ├── product-catalog.spec.ts
-│       ├── cart.spec.ts
-│       └── checkout.spec.ts
-├── pages/
-│   ├── LoginPage.ts
-│   ├── InventoryPage.ts
-│   ├── CartPage.ts
-│   ├── CheckoutPage.ts
-│   └── CheckoutCompletePage.ts
-└── utils/
-    ├── users.json
-    ├── checkoutInfo.json
-    └── helpers.ts
-    
+
+    saucedemo-smoke-suite/
+    ├── playwright.config.ts
+    ├── package.json
+    ├── README.md
+    ├── tests/
+    │   └── smoke/
+    │       ├── login.spec.ts
+    │       ├── product-catalog.spec.ts
+    │       ├── cart.spec.ts
+    │       └── checkout.spec.ts
+    ├── pages/
+    │   ├── LoginPage.ts
+    │   ├── InventoryPage.ts
+    │   ├── CartPage.ts
+    │   ├── CheckoutPage.ts
+    │   └── CheckoutCompletePage.ts
+    └── utils/
+        ├── users.json
+        ├── checkoutInfo.json
+        └── helpers.ts
+
 ---
 
 ## Test Coverage
@@ -58,13 +59,11 @@ saucedemo-smoke-suite/
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) v18 or higher
-- [Java](https://adoptium.net/) (required for Allure reporting)
 
-Verify both are installed:
+Verify it is installed:
 
 ```bash
 node -v
-java -version
 ```
 
 ---
@@ -73,7 +72,7 @@ java -version
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/saucedemo-smoke-suite.git
+git clone https://github.com/artmo-10/saucedemo-smoke-suite.git
 cd saucedemo-smoke-suite
 
 # Install dependencies
