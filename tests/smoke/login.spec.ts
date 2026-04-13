@@ -19,14 +19,4 @@ test.describe('Login Tests', () => {
     await expect(loginPage.errorMessage).toContainText('Username and password');
   });
 
-  test('intentional failure – demonstrates trace.zip capture', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    await loginPage.goToLoginPage();
-    await loginPage.login(users.standardUser.username, users.standardUser.password);
-
-    // Intentionally wrong — this will always fail and produce a trace.zip
-    await expect(page, 'INTENTIONAL FAILURE: wrong URL asserted on purpose')
-      .toHaveURL(/does-not-exist/);
-  });
-
 });

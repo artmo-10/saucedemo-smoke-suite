@@ -52,4 +52,25 @@ test.describe('Checkout Flow Tests', () => {
     await expect(checkoutPage.errorMessage).toContainText('First Name');
   });
 
+  test('Intentional failure – demonstrates trace.zip capture - Confirmation message mismatch', async ({ page }) => {
+    const inventoryPage = new InventoryPage(page);
+    const cartPage = new CartPage(page);
+    const checkoutPage = new CheckoutPage(page);
+    const completePage = new CheckoutCompletePage(page);
+
+    await inventoryPage.addFirstItemToCart();
+    await inventoryPage.goToCart();
+    await cartPage.proceedToCheckout();
+    await checkoutPage.fillShippingInfo(
+        checkoutInfo.firstName,
+        checkoutInfo.lastName,
+        checkoutInfo.zipCode,
+    );
+    await checkoutPage.finish();
+
+    // Intentional failure — simulates a regression where the confirmation
+    // message text changed. Real text is 'Thank you for your order!'
+    await expect(completePage.confirmation).toHaveText('Your order has been placed!');
+});
+
 });
