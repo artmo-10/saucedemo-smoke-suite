@@ -52,7 +52,7 @@ test.describe('Checkout Flow Tests', () => {
     await expect(checkoutPage.errorMessage).toContainText('First Name');
   });
 
-  test('Intentional failure – demonstrates trace.zip capture - Confirmation message mismatch', async ({ page }) => {
+  test('Intentional failure – demonstrates trace.zip demo - Confirmation message mismatch', async ({ page }) => {
     const inventoryPage = new InventoryPage(page);
     const cartPage = new CartPage(page);
     const checkoutPage = new CheckoutPage(page);
